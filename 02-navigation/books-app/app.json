@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "finished",
-    "slug": "finished",
+    "name": "Books App",
+    "slug": "books-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

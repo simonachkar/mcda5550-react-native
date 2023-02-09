@@ -7,20 +7,19 @@ import { CATEGORIES, BOOKS } from "../data";
 function BooksListScreen({ route, navigation }) {
   const catId = route.params.categoryId;
 
+  // Get displayedBooks data, by filtering the book by the specified category id
   const displayedBooks = BOOKS.filter((bookItem) => {
     return bookItem.category.indexOf(catId) >= 0;
   });
 
+  // To change the title to the category name
   useLayoutEffect(() => {
-    const categoryTitle = CATEGORIES.find(
-      (category) => category.id === catId
-    ).title;
-
-    navigation.setOptions({
-      title: categoryTitle,
-    });
+    const category = CATEGORIES.find((category) => category.id === catId);
+    const categoryTitle = category.title;
+    navigation.setOptions({ title: categoryTitle });
   }, [catId, navigation]);
 
+  // UI function to render the list of <BookItem>
   function renderBookItem(itemData) {
     const item = itemData.item;
 

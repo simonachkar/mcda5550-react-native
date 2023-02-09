@@ -6,7 +6,6 @@ const BookItem = ({ book }) => {
       <Image style={styles.image} source={{ uri: book.image }} />
       <View style={styles.textContainer}>
         <Text style={styles.name}>{book.name}</Text>
-
         <Text style={styles.author}>{book.author}</Text>
       </View>
     </View>

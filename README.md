@@ -1,1 +1,1 @@
-# mcda5550-react-native
+# Introduction to React Native

@@ -1,44 +1,72 @@
+import { useState } from 'react';
+import { StyleSheet, View, FlatList, Button } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { Image, TextInput, StyleSheet, Text, View, SafeAreaView} from 'react-native';
+
+import Colors from './constants/colors';
+import TodoItem from './components/TodoItem';
+import TodoInputModal from './components/TodoInputModal';
 
 export default function App() {
+  const [todos, setTodos] = useState([]);
+  const [modalIsVisible, setModalIsVisible] = useState(false);
+
+  const addTodo = (todoText) => {
+    setTodos((currentTodos) => [
+      ...currentTodos,
+      { text: todoText, id: Math.random().toString() },
+    ]);
+    setModalIsVisible(false);
+  }
+
+  const removeTodo = (id) => {
+    setTodos((currentTodos) => {
+      return currentTodos.filter((todo) => todo.id !== id);
+    });
+  }
+
   return (
-      <SafeAreaView style={styles.container}>
-      <View style={styles.view}>
-        <StatusBar style="auto" />
-        <Text style={styles.title}>Todo App</Text>
-        <TextInput
-          style={styles.textInput}
-          placeholder="Your course goal!"
-      // onChangeText={onChangeTextHandler}
-      // value={todo}
-    />
-    </View>
-      </SafeAreaView>
+    <>
+      <StatusBar style='dark' />
+      <View style={styles.appContainer}>
+        <Button
+          title='+ Add Todo'
+          color={Colors.primary600}
+          onPress={() => setModalIsVisible(true)}
+        />
+        <TodoInputModal
+          isVisible={modalIsVisible}
+          onAddGoal={addTodo}
+          onCancel={() => setModalIsVisible(false)}
+        />
+        <View style={styles.goalsContainer}>
+          <FlatList
+            data={todos}
+            renderItem={(itemData) => {
+              return (
+                <TodoItem
+                  text={itemData.item.text}
+                  id={itemData.item.id}
+                  onDeleteItem={removeTodo}
+                />
+              );
+            }}
+            keyExtractor={(item) => item.id}
+            alwaysBounceVertical={false}
+          />
+        </View>
+      </View>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  appContainer: {
     flex: 1,
+    paddingTop: 55,
+    paddingHorizontal: 16,
   },
-  view: {
-    backgroundColor: 'red',
-    alignItems: 'center',
-    padding: 10, 
-  },
-  title: {
-    fontSize: 32,
-    paddingTop: 4,
-  },
-  textInput: {
-    borderWidth: 1,
-    borderColor: '#e4d0ff',
-    backgroundColor: 'white',
-    color: 'black',
-    borderRadius: 6,
-    width: '100%',
-    padding: 16,
-    margin: 16,
+  goalsContainer: {
+    flex: 5,
+    marginTop: 14,
   },
 });

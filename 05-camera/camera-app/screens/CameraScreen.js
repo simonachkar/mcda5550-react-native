@@ -1,10 +1,17 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, SafeAreaView, Button, Image } from 'react-native';
-import { useEffect, useRef, useState } from 'react';
-import { Camera } from 'expo-camera';
-import { shareAsync } from 'expo-sharing';
-import * as MediaLibrary from 'expo-media-library';
-import db from '../utils/db';
+import { StatusBar } from "expo-status-bar";
+import {
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  Button,
+  Image,
+} from "react-native";
+import { useEffect, useRef, useState } from "react";
+import { Camera } from "expo-camera";
+import { shareAsync } from "expo-sharing";
+import * as MediaLibrary from "expo-media-library";
+import db from "../utils/db";
 
 const CameraScreen = () => {
   let cameraRef = useRef();
@@ -15,23 +22,28 @@ const CameraScreen = () => {
   useEffect(() => {
     (async () => {
       const cameraPermission = await Camera.requestCameraPermissionsAsync();
-      const mediaLibraryPermission = await MediaLibrary.requestPermissionsAsync();
+      const mediaLibraryPermission =
+        await MediaLibrary.requestPermissionsAsync();
       setHasCameraPermission(cameraPermission.status === "granted");
       setHasMediaLibraryPermission(mediaLibraryPermission.status === "granted");
     })();
   }, []);
 
   if (hasCameraPermission === undefined) {
-    return <Text>Requesting permissions...</Text>
+    return <Text>Requesting permissions...</Text>;
   } else if (!hasCameraPermission) {
-    return <Text>Permission for camera not granted. Please change this in settings.</Text>
+    return (
+      <Text>
+        Permission for camera not granted. Please change this in settings.
+      </Text>
+    );
   }
 
   let takePic = async () => {
     let options = {
       quality: 1,
       base64: true,
-      exif: false
+      exif: false,
     };
 
     let newPhoto = await cameraRef.current.takePictureAsync(options);
@@ -47,21 +59,25 @@ const CameraScreen = () => {
 
     let savePhoto = () => {
       MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
-        db.transaction(
-            (tx) => {
-              tx.executeSql("insert into images (imageSrc) values (?)", [photo.uri]);
-            },
-            null
-          );
+        db.transaction((tx) => {
+          tx.executeSql("insert into images (imageSrc) values (?)", [
+            photo.uri,
+          ]);
+        }, null);
         setPhoto(undefined);
       });
     };
 
     return (
       <SafeAreaView style={styles.container}>
-        <Image style={styles.preview} source={{ uri: "data:image/jpg;base64," + photo.base64 }} />
+        <Image
+          style={styles.preview}
+          source={{ uri: "data:image/jpg;base64," + photo.base64 }}
+        />
         <Button title="Share" onPress={sharePic} />
-        {hasMediaLibraryPermission ? <Button title="Save" onPress={savePhoto} /> : undefined}
+        {hasMediaLibraryPermission ? (
+          <Button title="Save" onPress={savePhoto} />
+        ) : undefined}
         <Button title="Discard" onPress={() => setPhoto(undefined)} />
       </SafeAreaView>
     );
@@ -71,25 +87,25 @@ const CameraScreen = () => {
     <Camera style={styles.container} ref={cameraRef}>
       <View style={styles.buttonContainer}>
         <Button title="Take Pic" onPress={takePic} />
-       </View>
+      </View>
     </Camera>
   );
-}
+};
 
 export default CameraScreen;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   buttonContainer: {
-    backgroundColor: '#fff',
-    alignSelf: 'flex-end'
+    backgroundColor: "#fff",
+    alignSelf: "flex-end",
   },
   preview: {
-    alignSelf: 'stretch',
-    flex: 1
-  }
+    alignSelf: "stretch",
+    flex: 1,
+  },
 });

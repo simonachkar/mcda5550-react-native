@@ -4,9 +4,13 @@
 
 React Native provides a way to navigate between different screens or views within an app using the "React Navigation" library. 
 
+[React Navigation library](https://reactnavigation.org/)
+
 One of the most commonly used navigators in React Navigation is the Stack Navigator.
 
 ## Stack Navigator
+
+[Stack Navigator Docs](https://reactnavigation.org/docs/stack-navigator)
 
 A Stack Navigator represents a stack of screens, where the top of the stack is the current screen. 
 
@@ -36,6 +40,8 @@ function App() {
 
 export default App;
 ```
+
+## Passing and receiving data 
 
 All the screens inside the `NavigationContainer` now have access to special props: `navigation` and `route` that could be used to navigate within these screens.
 

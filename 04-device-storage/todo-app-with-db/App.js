@@ -56,9 +56,9 @@ export default function App() {
 
     // Add `todoText` to database
     db.transaction((tx) => {
-      tx.executeSql('INSERT INTO todos (text) VALUES (?)', [todoText]);
+      tx.executeSql("INSERT INTO todos (text) VALUES (?)", [todoText]);
     });
-    
+
     setModalIsVisible(false);
   };
 

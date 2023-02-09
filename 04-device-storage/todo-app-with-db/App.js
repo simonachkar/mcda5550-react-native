@@ -1,14 +1,15 @@
-import { useState, useEffect } from 'react';
-import { StyleSheet, View, FlatList, Button } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
+import { useState, useEffect } from "react";
+import { StyleSheet, View, FlatList, Button } from "react-native";
+import { StatusBar } from "expo-status-bar";
 import * as SQLite from "expo-sqlite";
 
-import TodoItem from './components/TodoItem';
-import TodoInputModal from './components/TodoInputModal';
+import TodoItem from "./components/TodoItem";
+import TodoInputModal from "./components/TodoInputModal";
 
-import Colors from './constants/colors';
+import Colors from "./constants/colors";
 
-function openDatabase() {
+function getDatabase() {
+  // Error handling, in case the platform is web (expo-sqlite does not support web)
   if (Platform.OS === "web") {
     return {
       transaction: () => {
@@ -20,73 +21,64 @@ function openDatabase() {
   }
 
   const db = SQLite.openDatabase("db.db");
-
-  console.log(db);
+  // console.log(db);
   return db;
 }
 
-const db = openDatabase();
+const db = getDatabase();
 
 export default function App() {
   const [todos, setTodos] = useState([]);
   const [modalIsVisible, setModalIsVisible] = useState(false);
+
+  useEffect(() => {
+    // Create table `items` (if does not exist)
+    db.transaction((tx) => {
+      tx.executeSql(
+        "CREATE TABLE IF NOT EXISTS todos (id INTEGER PRIMARY KEY NOT NULL, text TEXT);",
+        (message) => console.log(message) // callback
+      );
+    });
+
+    // Select all data from table `todos`
+    db.transaction((tx) => {
+      tx.executeSql(`SELECT * FROM todos;`, [], (_, { rows: { _array } }) =>
+        setTodos(_array)
+      );
+    });
+  }, []);
 
   const addTodo = (todoText) => {
     setTodos((currentTodos) => [
       ...currentTodos,
       { text: todoText, id: Math.random().toString() },
     ]);
-    db.transaction(
-      (tx) => {
-        tx.executeSql("insert into items (text) values (?)", [todoText]);
-        tx.executeSql("select * from items", [], (sqlTransaction, { rows }) =>
-          console.log(JSON.stringify(rows))
-        );
-      },
-      null
-    );
+
+    // Add `todoText` to database
+    db.transaction((tx) => {
+      tx.executeSql('INSERT INTO todos (text) VALUES (?)', [todoText]);
+    });
+    
     setModalIsVisible(false);
-  }
+  };
 
   const removeTodo = (id) => {
     setTodos((currentTodos) => {
       return currentTodos.filter((todo) => todo.id !== id);
     });
 
-    db.transaction(
-      (tx) => {
-        tx.executeSql(`delete from items where id = ?;`, [id]);
-      },
-      null
-    )
-  }
-
-
-  useEffect(() => {
+    // Remove `todoText` with that specific `id` from database
     db.transaction((tx) => {
-      tx.executeSql(
-        "create table if not exists items (id integer primary key not null, text text);",
-        (message) => console.log(message)
-      );
+      tx.executeSql(`DELETE FROM ITEMS WHERE id = ?;`, [id]);
     });
-  }, []);
-
-  useEffect(() => {
-    db.transaction((tx) => {
-      tx.executeSql(
-        `select * from items;`,
-        1,
-        (_, { rows: { _array } }) => setTodos(_array)
-      );
-    });
-  }, []);
+  };
 
   return (
     <>
-      <StatusBar style='dark' />
+      <StatusBar style="dark" />
       <View style={styles.appContainer}>
         <Button
-          title='+ Add Todo'
+          title="+ Add Todo"
           color={Colors.primary600}
           onPress={() => setModalIsVisible(true)}
         />

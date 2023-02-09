@@ -1,6 +1,6 @@
-import { StyleSheet, View, Text, Pressable } from 'react-native';
+import { StyleSheet, View, Text, Pressable } from "react-native";
 
-import Colors from '../constants/colors';
+import Colors from "../constants/colors";
 
 const TodoItem = ({ onDeleteItem, id, text }) => {
   return (
@@ -13,7 +13,7 @@ const TodoItem = ({ onDeleteItem, id, text }) => {
       </View>
     </Pressable>
   );
-}
+};
 
 export default TodoItem;
 

@@ -1,16 +1,13 @@
 import { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, Modal, Image, KeyboardAvoidingView,  } from 'react-native';
+
 import Colors from '../constants/colors';
 
-const TodoInputModal = ({ isVisible, onAddGoal, onCancel }) => {
+const TodoInputModal = ({ isVisible, onAddTodo, onCancel }) => {
     const [enteredText, setEnteredText] = useState('');
 
-    const handleTodoInput = (enteredText) => {
-        setEnteredText(enteredText);
-    }
-
-    const addGoalHandler = () => {
-        onAddGoal(enteredText);
+    const handleAddTodo = () => {
+        onAddTodo(enteredText);
         setEnteredText('');
     }
 
@@ -24,16 +21,17 @@ const TodoInputModal = ({ isVisible, onAddGoal, onCancel }) => {
                 <TextInput
                     style={styles.textInput}
                     placeholder='Your next todo!'
-                    onChangeText={handleTodoInput}
+                    onChangeText={(enteredText) => setEnteredText(enteredText)}
                     value={enteredText}
                     autoFocus={true}
+                    onSubmitEditing={handleAddTodo}
                 />
                 <View style={styles.buttonContainer}>
                     <View style={styles.button}>
                         <Button title='Cancel' onPress={onCancel} color={Colors.secondary500} />
                     </View>
                     <View style={styles.button}>
-                        <Button title='Add Goal' onPress={addGoalHandler} color={Colors.primary600} />
+                        <Button title='Add Todo' onPress={handleAddTodo} color={Colors.primary600} />
                     </View>
                 </View>
             </KeyboardAvoidingView>

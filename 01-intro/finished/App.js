@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { StyleSheet, View, FlatList, Button } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 
-import Colors from './constants/colors';
 import TodoItem from './components/TodoItem';
 import TodoInputModal from './components/TodoInputModal';
+
+import Colors from './constants/colors';
 
 export default function App() {
   const [todos, setTodos] = useState([]);
@@ -35,10 +36,10 @@ export default function App() {
         />
         <TodoInputModal
           isVisible={modalIsVisible}
-          onAddGoal={addTodo}
+          onAddTodo={addTodo}
           onCancel={() => setModalIsVisible(false)}
         />
-        <View style={styles.goalsContainer}>
+        <View style={styles.todosContainer}>
           <FlatList
             data={todos}
             renderItem={(itemData) => {
@@ -51,7 +52,6 @@ export default function App() {
               );
             }}
             keyExtractor={(item) => item.id}
-            alwaysBounceVertical={false}
           />
         </View>
       </View>
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     paddingTop: 55,
     paddingHorizontal: 16,
   },
-  goalsContainer: {
+  todosContainer: {
     flex: 5,
     marginTop: 14,
   },

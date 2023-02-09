@@ -1,14 +1,15 @@
 import { StyleSheet, View, Text, Pressable } from 'react-native';
+
 import Colors from '../constants/colors';
 
-function TodoItem(props) {
+const TodoItem = ({ onDeleteItem, id, text }) => {
   return (
     <Pressable
-      onPress={props.onDeleteItem.bind(this, props.id)}
+      onPress={() => onDeleteItem(id)}
       style={({ pressed }) => pressed && styles.pressedItem}
     >
-      <View style={styles.goalItem}>
-        <Text style={styles.goalText}>{props.text}</Text>
+      <View style={styles.todoContainer}>
+        <Text style={styles.todoText}>{text}</Text>
       </View>
     </Pressable>
   );
@@ -17,7 +18,7 @@ function TodoItem(props) {
 export default TodoItem;
 
 const styles = StyleSheet.create({
-  goalItem: {
+  todoContainer: {
     margin: 8,
     borderRadius: 6,
     backgroundColor: Colors.primary500,
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
   pressedItem: {
     opacity: 0.5,
   },
-  goalText: {
+  todoText: {
     color: Colors.white,
     padding: 8,
   },

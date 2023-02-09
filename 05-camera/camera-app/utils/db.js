@@ -1,6 +1,6 @@
 import * as SQLite from "expo-sqlite";
 
-function openDatabase() {
+function getDatabase() {
   if (Platform.OS === "web") {
     return {
       transaction: () => {
@@ -12,10 +12,9 @@ function openDatabase() {
   }
 
   const db = SQLite.openDatabase("images.db");
-
   return db;
 }
 
-const db = openDatabase();
+const db = getDatabase();
 
 export default db;

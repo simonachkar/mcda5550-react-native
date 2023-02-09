@@ -22,8 +22,8 @@ const CameraScreen = () => {
   useEffect(() => {
     (async () => {
       const cameraPermission = await Camera.requestCameraPermissionsAsync();
-      const mediaLibraryPermission =
-        await MediaLibrary.requestPermissionsAsync();
+      const mediaLibraryPermission = await MediaLibrary.requestPermissionsAsync();
+
       setHasCameraPermission(cameraPermission.status === "granted");
       setHasMediaLibraryPermission(mediaLibraryPermission.status === "granted");
     })();
@@ -39,14 +39,14 @@ const CameraScreen = () => {
     );
   }
 
-  let takePic = async () => {
+
+  const takePic = async () => {
     let options = {
       quality: 1,
       base64: true,
       exif: false,
     };
-
-    let newPhoto = await cameraRef.current.takePictureAsync(options);
+    const newPhoto = await cameraRef.current.takePictureAsync(options);
     setPhoto(newPhoto);
   };
 

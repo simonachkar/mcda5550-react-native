@@ -22,7 +22,8 @@ const CameraScreen = () => {
   useEffect(() => {
     (async () => {
       const cameraPermission = await Camera.requestCameraPermissionsAsync();
-      const mediaLibraryPermission = await MediaLibrary.requestPermissionsAsync();
+      const mediaLibraryPermission =
+        await MediaLibrary.requestPermissionsAsync();
 
       setHasCameraPermission(cameraPermission.status === "granted");
       setHasMediaLibraryPermission(mediaLibraryPermission.status === "granted");
@@ -38,7 +39,6 @@ const CameraScreen = () => {
       </Text>
     );
   }
-
 
   const takePic = async () => {
     let options = {

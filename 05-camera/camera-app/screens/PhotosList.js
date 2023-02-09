@@ -19,11 +19,11 @@ const PhotosList = () => {
         data={photos}
         keyExtractor={(item) => item.id}
         renderItem={(itemData) => (
-          <View style={{  padding: 2 }}>
-          <Image
-            source={{ uri: itemData.item.imageSrc }}
-            style={{ height: 200, width: 100 }}
-          />
+          <View style={{ padding: 2 }}>
+            <Image
+              source={{ uri: itemData.item.imageSrc }}
+              style={{ height: 200, width: 100 }}
+            />
           </View>
         )}
         numColumns={3}

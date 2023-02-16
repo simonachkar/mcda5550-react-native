@@ -40,7 +40,6 @@ npm install @react-navigation/native @react-navigation/stack
 The data fetching would be done in the Weather Screen.
 
 ```js
-// Call the fuction on a useEffect
 useEffect(() => {
   // don't forget to have a state for loading to show a loading message until the data is fetched
   setIsLoading(true);

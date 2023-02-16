@@ -55,7 +55,8 @@ useEffect(() => {
         temperature: json.main.temp,
         locationName: json.name,
         weatherCondition: json.weather[0].main,
-        // ...whatever data you want from the open weather api
+        // create a state for the weather data
+        // add whatever data you want from the open weather api
       });
 
       // when the weather data is set, isLoading should be changed back

@@ -10,13 +10,13 @@ The screens:
 
 The main screen, "Home Screen" contains some basic text describing the app, and two buttons, "Weather" and "Feedback" each leading the other two screens.
 
-The weather screen displays forecast data using `fetch` from [Open Weather API](https://openweathermap.org/). Displaying the name of a city of your choice, with its weather as Celcius and a description of the weather (you get the description from the API response).
+The weather screen displays forecast data using `fetch` from [Open Weather API](https://openweathermap.org/). Displaying the name of a city of your choice, with its weather in Celcius and a description of the weather (you get the description from the API response).
 
 The feedback screen should display some text consisting of your feedback and comments about this React Native session. Please give your comments (and complaints) about the material and the assignment.
 
-Here is a prototype of the app you should code:
+Here is a mockup of the app you should code:
 
-![](/assignment/mockup.jpg)
+![mockup](/assignment/mockup.jpg)
 
 ## Rubric
 

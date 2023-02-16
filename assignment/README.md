@@ -15,7 +15,8 @@ The weather screen displays forecast data using `fetch` from [Open Weather API](
 The feedback screen should display some text consisting of your feedback and comments about this React Native session. Please give your comments (and complaints) about the material and the assignment.
 
 Here is a prototype of the app you should code:
-![](./misc/React Native Asssignment.jpg)
+
+![](/assignment/mockup.jpg)
 
 ## Rubric
 

@@ -68,3 +68,5 @@ useEffect(() => {
 ```
 
 Don't forget to add the values in the URL for `latitude`, `longitude` and `API_KEY` (you get an "API key" by [creating an account](https://openweathermap.org/appid) on the Open Weather website).
+
+You can use `lat=44.6476` and `lon=-63.5728` for Halifax coordinates.

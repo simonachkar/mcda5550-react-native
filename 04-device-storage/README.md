@@ -4,7 +4,7 @@ React Native provides local data storage on devices through various means, inclu
 
 There are many libraries used in React Native to store data on the device with SQLite. In this lecture we are using `expo-sqlite`.
 
-> Note: expo-sqlite is not supported on web platforms.
+> Note: `expo-sqlite` is not supported on web platforms.
 
 - [Expo SQLite Docs](https://docs.expo.dev/versions/latest/sdk/sqlite/)
 

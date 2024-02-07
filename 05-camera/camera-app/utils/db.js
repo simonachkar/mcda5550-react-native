@@ -1,4 +1,5 @@
 import * as SQLite from "expo-sqlite";
+import { Platform } from "react-native";
 
 function getDatabase() {
   if (Platform.OS === "web") {

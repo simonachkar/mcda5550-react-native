@@ -17,6 +17,7 @@ const CameraScreen = () => {
   const [hasCameraPermission, setHasCameraPermission] = useState();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
   const [photo, setPhoto] = useState();
+  const [cameraType, setCameraType] = useState("back");
 
   useEffect(() => {
     (async () => {
@@ -47,6 +48,10 @@ const CameraScreen = () => {
     };
     const newPhoto = await cameraRef.current.takePictureAsync(options);
     setPhoto(newPhoto);
+  };
+
+  const flipCamera = () => {
+    setCameraType(cameraType === "back" ? "front" : "back");
   };
 
   if (photo) {
@@ -83,9 +88,10 @@ const CameraScreen = () => {
   }
 
   return (
-    <Camera style={styles.container} ref={cameraRef}>
+    <Camera style={styles.container} ref={cameraRef} type={cameraType}>
       <View style={styles.buttonContainer}>
         <Button title="Take Pic" onPress={takePic} />
+        <Button title="Flip Camera" onPress={flipCamera} />
       </View>
     </Camera>
   );

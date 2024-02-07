@@ -1,6 +1,6 @@
 # Data Fetching + Location Service 📍
 
-React Native facilitates fetching data from servers and utilizing device features like geo-location. (add a little bit more info) [React Native supports Geolocation through various libraries...]
+React Native facilitates fetching data from servers and utilizing device features like geo-location.
 
 - [Using Fetch API in React Native](https://reactnative.dev/docs/network#using-fetch)
 - [Expo Location Docs](https://docs.expo.dev/versions/latest/sdk/location/)

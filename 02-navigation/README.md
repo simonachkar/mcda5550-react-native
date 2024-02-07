@@ -1,58 +1,19 @@
-# Navigation in React Native
+# Navigation in React Native 🧭
 
-> 📱 Books App
+React Native offers a way to navigate between different screens or views within an app through the "React Navigation" library.
 
-React Native provides a way to navigate between different screens or views within an app using the "React Navigation" library. 
+- [React Navigation library](https://reactnavigation.org/)
+- [React Native Docs about Navigation](https://reactnative.dev/docs/navigation)
+- [Stack Navigator Docs](https://reactnavigation.org/docs/stack-navigator)
 
-[React Navigation library](https://reactnavigation.org/)
+## About This App (Books App)
 
-One of the most commonly used navigators in React Navigation is the Stack Navigator.
+Books App is a mobile application built with React Native that enables users to browse through various categories of books. It serves as a demonstration of handling navigation within React Native applications.
 
-## Stack Navigator
+## Running the app
 
-[Stack Navigator Docs](https://reactnavigation.org/docs/stack-navigator)
+To run Books App, follow these steps:
 
-A Stack Navigator represents a stack of screens, where the top of the stack is the current screen. 
-
-When a new screen is pushed onto the stack, it is displayed on top of the previous screen, which remains visible in the background. 
-
-The user can navigate back to the previous screen by popping the top screen from the stack.
-
-```js
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from '@react-navigation/stack';
-
-import HomeScreen from './HomeScreen';
-import DetailsScreen from './DetailsScreen';
-
-const Stack = createStackNavigator();
-
-function App() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Details" component={DetailsScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-}
-
-export default App;
-```
-
-## Passing and receiving data 
-
-All the screens inside the `NavigationContainer` now have access to special props: `navigation` and `route` that could be used to navigate within these screens.
-
-```js
-  const pressHandler = (itemData) => {
-    navigation.navigate("ScreenName", { optionalParam: paramToPass });
-  }
-```
-
-In the other screen, to receive the optional paramters, we use the `route` prop.
-
-```js
-const param_id = route.params.param_id;
-```
+1. Navigate to the project directory.
+1. Run `npm install` to install the necessary dependencies.
+1. Start the app with `npx expo start` or `npm start`

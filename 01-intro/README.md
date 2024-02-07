@@ -1,4 +1,4 @@
-# Introduction to React Native
+# Introduction to React Native ⚛️
 
 React Native is a framework enabling developers to build mobile apps using JavaScript and React. It provides a native-like experience on both Android and iOS with a single codebase.
 

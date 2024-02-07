@@ -1,5 +1,4 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -8,38 +7,30 @@ import BooksListScreen from "./screens/BooksListScreen";
 
 const Stack = createNativeStackNavigator();
 
+const screenOptions = {
+  headerTintColor: "#282120",
+  headerStyle: { backgroundColor: "#FAD02C" },
+  headerTitleStyle: { color: "#282120" },
+};
+
 export default function App() {
   return (
     <>
       <StatusBar style="dark" />
       <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            headerTintColor: "#282120",
-            headerStyle: {
-              backgroundColor: "#FAD02C",
-            },
-            headerTitleStyle: {
-              color: "#282120",
-            },
-          }}
-        >
+        <Stack.Navigator screenOptions={screenOptions}>
           <Stack.Screen
-            name="AllCategories"
-            options={{ title: "All Categories" }}
+            name="Home"
             component={CategoriesScreen}
+            options={{ title: "📚 Books App" }}
           />
           <Stack.Screen
             name="BooksList"
-            options={{ title: "Books List" }}
             component={BooksListScreen}
+            options={{ title: "Category" }}
           />
         </Stack.Navigator>
       </NavigationContainer>
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {},
-});

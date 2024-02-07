@@ -7,3 +7,5 @@
 5. [Camera App 📸](./05-camera/)
 
 _This repo is intended to complement the React Native Lecture given for the "Web, Mobile, and Cloud Application Development" course (MCDA5550) at Saint Mary's University._
+
+🖥️ [Slides](https://docs.google.com/presentation/d/1yzOx5LJRqdW6Iu_3vxegru59xzJ5hX5cOa56BRtOlIk/edit?usp=sharing)

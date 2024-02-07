@@ -27,9 +27,11 @@ After navigating to `intro-app` and starting your project with `npx expo start`,
 
 - Scan the QR code and open the app in **Expo Go**.
 - Simulators:
+
   - Press 'a' to open on an Android device or emulator.
   - Press 'i' to open on an iOS simulator.
   - Press 'w' to open on a web browser.
+
 - Development and Tools:
 
   - Press 's' to switch to a development build.

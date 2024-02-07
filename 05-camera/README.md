@@ -4,10 +4,10 @@ This app is a practical example of how to use the device's camera and media libr
 
 ## Features
 
-- **Take Photos**: Use your device's camera to capture moments.
+- **Take Photos**: Use your device's camera to capture pictures.
 - **Save Photos**: Keep your photos by saving them directly to your device's gallery.
 - **Photo Gallery**: Browse through your saved photos within the app.
-- **SQLite Databas**e\*\*: Manages saved photos metadata for easy access and organization.
+- **SQLite Database**: Manages saved photos metadata for easy access and organization.
 
 ## Getting Started
 
@@ -44,3 +44,5 @@ A library that provides implementing sharing files, as it allows to share files 
 ### Tab Navigation
 
 In React Navigation, `Tab Navigation` is used to manage screens and their navigation within an app. It provides a way to switch between different screens and maintain navigation history.
+
+- [Tab Navigation Docs](https://reactnavigation.org/docs/tab-based-navigation/)

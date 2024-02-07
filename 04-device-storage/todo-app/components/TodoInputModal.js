@@ -7,6 +7,7 @@ import {
   Modal,
   Image,
   KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 
 import Colors from "../constants/colors";

@@ -9,6 +9,7 @@ function BooksListScreen({ route, navigation }) {
 
   // Get displayedBooks data, by filtering the book by the specified category id
   const displayedBooks = BOOKS.filter((bookItem) => {
+    if (!catId) return true;
     return bookItem.category.indexOf(catId) >= 0;
   });
 

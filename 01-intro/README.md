@@ -1,106 +1,10 @@
 # Introduction to React Native
 
-> 📱 Simple Todo App
+React Native is a framework enabling developers to build mobile apps using JavaScript and React. It provides a native-like experience on both Android and iOS with a single codebase.
 
-## Building Blocks
+## Create a React Native Project
 
-You build mobile apps with React Native by combining different Core Components, and sometimes build your own components using the Core Components.
-
-Components are a fundamental building block in React Native and are used to create the user interface of an app. 
-
-### Core Components
-React Native provides a number of built-in components that can be used to create the UI of an app. 
-
-[Core Components and APIs](https://reactnative.dev/docs/components-and-apis)
-- View
-- Text
-- Image
-- TextInput
-- ScrollView
-- StyleSheet (API)
-- Button
-- FlatList
-- Modal
-- and more...
-
-```js
-const App = props => {
-	return (
-		<View>
-			<Text>Hello there!</Text>
-		</View>
-	)
-}
-```
-
-### Custom Components
-Custom components are components that you create yourself to extend or customize the behavior of built-in components. They can also be used to create new components that are unique to your app. 
-
-### APIs
-React Native provides a number of APIs that allow you to access native platform functionality, such as camera and location services, from your JavaScript code. These APIs are accessed through the React Native Bridge, which acts as a bridge between the JavaScript runtime environment and the native platform environment.
-
-
-## Styling
-
-Styling in React Native is used to apply visual styles to the components in your application. 
-
-In React Native, there are different ways to style your components. **You can't use pure-CSS!**
-
-### Inline Styles
-
-Styles can be specified directly in the component using the "style" prop.
-
-```js
-import React from 'react';
-import { View, Text } from 'react-native';
-
-const MyComponent = () => {
-  return (
-    <View style={{ backgroundColor: 'lightblue', padding: 20 }}>
-      <Text style={{ fontSize: 20, color: 'white' }}>
-        Hello World!
-      </Text>
-    </View>
-  );
-};
-
-export default MyComponent;
-```
-
-### StyleSheet API
-
-StyleSheet lets you define a separate stylesheet for your styles.
-
-```js
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'lightblue',
-    padding: 20,
-  },
-  text: {
-    fontSize: 20,
-    color: 'white',
-  },
-});
-
-const MyComponent = () => {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Hello World!</Text>
-    </View>
-  );
-};
-
-export default MyComponent;
-```
-
-
-## Create a React Native project
-
-There are two ways: Expo CLI and React Native CLI (CLI = "Command Line Interface")
+You can use either Expo CLI or React Native CLI to create a project. For Expo CLI:
 
 ```bash
 npx create-expo-app project-name
@@ -110,6 +14,31 @@ npx expo start
 ```
 
 ### Expo
-Development platform that makes it easier and faster to build, test, and deploy mobile applications
 
-See: [Setting up the development environment](https://reactnative.dev/docs/environment-setup).
+Expo is a development platform that simplifies building, testing, and deploying mobile apps.
+
+### More info
+
+For more info on setting up the development environment, refer to [React Native's environment setup doc](https://reactnative.dev/docs/environment-setup).
+
+## Running the App with Expo
+
+After navigating to `intro-app` and starting your project with `npx expo start`, you can:
+
+- Scan the QR code and open the app in **Expo Go**.
+- Simulators:
+  - Press 'a' to open on an Android device or emulator.
+  - Press 'i' to open on an iOS simulator.
+  - Press 'w' to open on a web browser.
+- Development and Tools:
+
+  - Press 's' to switch to a development build.
+  - Press 'j' to open the debugger.
+  - Press 'r' to reload the app.
+  - Press 'm' to toggle the menu.
+  - Press 'o' to open project code in your editor.
+  - Press '?' to show all commands.
+
+  ## About This App
+
+  This React Native `intro-app` demonstrates basic concepts with a simple user interface. Users can input and display information, exploring components and state management in React Native.

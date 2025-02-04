@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { StatusBar } from "expo-status-bar";
+import { Stack, Link } from "expo-router";
 import {
   View,
   Text,
@@ -25,13 +25,14 @@ export default function WelcomeApp() {
 
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
+      <Stack.Screen options={{ headerStyle: { backgroundColor: '#FFE4E1' }, headerTitle: "SMU welcome app" }} />
 
       <View style={styles.logoContainer}>
         <Image
           source={require("@/assets/images/smu_logo.png")}
           style={styles.logo}
         />
+        <Link href={{ pathname: '/details' }} style={{ color: '#9D2235', textDecorationLine: 'underline', margin: 10 }}>Go to Details Screen</Link>
       </View>
 
       <ScrollView style={styles.contentContainer}>
@@ -94,5 +95,5 @@ const styles = StyleSheet.create({
     borderColor: "gray",
     borderWidth: 1,
     marginBottom: 10,
-  },
+  }
 });

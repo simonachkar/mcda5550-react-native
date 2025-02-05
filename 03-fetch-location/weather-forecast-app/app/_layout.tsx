@@ -1,3 +1,4 @@
+import React from "react";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 
@@ -8,10 +9,10 @@ export default function RootLayout() {
       <Stack
         screenOptions={{
           headerStyle: {
-            backgroundColor: "#fff",
+            backgroundColor: "#ADD8E6",
           },
           headerTitleStyle: {
-            color: "#000",
+            color: "black",
           },
           headerTitle: "Weather Forecast 🌤️",
         }}

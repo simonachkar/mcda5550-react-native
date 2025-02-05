@@ -25,7 +25,7 @@ export function Weather({ weatherData }: WeatherProps) {
 const styles = StyleSheet.create({
   weatherContainer: {
     flex: 1,
-    backgroundColor: "white",
+
     width: "100%",
     marginTop: 90,
     marginBottom: 55,

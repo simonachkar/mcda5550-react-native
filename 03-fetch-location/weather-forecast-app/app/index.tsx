@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     flex: 1, // Take up all available space
     justifyContent: "center", // Center content vertically
     alignItems: "center", // Center content horizontally
-    backgroundColor: "#fff",
+    backgroundColor: "#FFFFE0",
     width: "100%",
   },
   loadingText: {

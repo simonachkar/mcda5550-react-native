@@ -6,12 +6,14 @@ import {
   Button,
   Image,
   SafeAreaView,
+  TouchableOpacity,
+  Pressable,
 } from 'react-native';
 import { CameraView, CameraType, type CameraCapturedPicture, useCameraPermissions } from 'expo-camera';
 import { shareAsync } from 'expo-sharing';
 import * as MediaLibrary from 'expo-media-library';
-import * as SQLite from 'expo-sqlite';
 import { getDatabaseInstance } from '../utils/database';
+import { FontAwesome6 } from '@expo/vector-icons';
 
 const handleError = (error: any, message: string) => {
   console.error(message, error);
@@ -22,9 +24,8 @@ export default function CameraScreen() {
   const [permission, requestPermission] = useCameraPermissions();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState<boolean>(false);
   const [photo, setPhoto] = useState<CameraCapturedPicture | null>(null);
-  const [cameraType, setCameraType] = useState<CameraType>('back');
+  const [facing, setFacing] = useState<CameraType>('back');
 
-  // Request media library permission on mount
   useEffect(() => {
     const requestPermissions = async () => {
       const mediaLibraryPermission = await MediaLibrary.requestPermissionsAsync();
@@ -40,8 +41,8 @@ export default function CameraScreen() {
   if (!permission.granted) {
     return (
       <View style={styles.container}>
-        <Text style={styles.textCenter}>We need your permission to show the camera</Text>
-        <Button onPress={requestPermission} title="Grant permission" />
+        <Text style={styles.message}>We need your permission to show the camera</Text>
+        <Button onPress={requestPermission} title="grant permission" />
       </View>
     );
   }
@@ -61,8 +62,8 @@ export default function CameraScreen() {
     }
   };
 
-  const flipCamera = () => {
-    setCameraType(current => current === 'back' ? 'front' : 'back');
+  const toggleFacing = () => {
+    setFacing(current => (current === 'back' ? 'front' : 'back'));
   };
 
   // Share picture after taking it
@@ -99,56 +100,96 @@ export default function CameraScreen() {
       <SafeAreaView style={styles.container}>
         <Image
           style={styles.preview}
-          source={{ uri: `data:image/jpg;base64,${photo.base64}` }}
+          source={{ uri: photo.uri }}
         />
-        <Button title="Share" onPress={sharePic} />
-        {hasMediaLibraryPermission && (
-          <Button title="Save" onPress={savePhoto} />
-        )}
-        <Button title="Retake" onPress={() => setPhoto(null)} />
+        <View style={styles.buttonContainer}>
+          <Button title="Share" onPress={sharePic} />
+          {hasMediaLibraryPermission && (
+            <Button title="Save" onPress={savePhoto} />
+          )}
+          <Button title="Retake" onPress={() => setPhoto(null)} />
+        </View>
       </SafeAreaView>
     );
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <CameraView 
         style={styles.camera} 
         ref={cameraRef}
-        onMountError={(error) => handleError(error, 'Camera mount error:')}
+        facing={facing}
       >
-        <View style={styles.buttonsContainer}>
-          <Button title="Flip Camera" onPress={flipCamera} />
-          <Button title="Take Picture" onPress={takePic} />
+        <View style={styles.shutterContainer}>
+          <TouchableOpacity onPress={toggleFacing}>
+            <FontAwesome6 name="rotate-left" size={32} color="white" />
+          </TouchableOpacity>
+          <Pressable onPress={takePic}>
+            {({ pressed }) => (
+              <View
+                style={[
+                  styles.shutterBtn,
+                  { opacity: pressed ? 0.5 : 1 }
+                ]}
+              >
+                <View style={styles.shutterBtnInner} />
+              </View>
+            )}
+          </Pressable>
+          <View style={{ width: 32 }} /> {/* Spacer for layout balance */}
         </View>
       </CameraView>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: '#000',
   },
-  textCenter: {
+  message: {
     textAlign: 'center',
+    paddingBottom: 10,
   },
   camera: {
+    flex: 1,
+    width: '100%',
+  },
+  shutterContainer: {
+    position: 'absolute',
+    bottom: 44,
+    left: 0,
+    width: '100%',
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 30,
+  },
+  shutterBtn: {
+    backgroundColor: 'transparent',
+    borderWidth: 5,
+    borderColor: 'white',
+    width: 85,
+    height: 85,
+    borderRadius: 45,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  shutterBtnInner: {
+    width: 70,
+    height: 70,
+    borderRadius: 50,
+    backgroundColor: 'white',
+  },
+  preview: {
+    flex: 1,
     width: '100%',
     height: '100%',
   },
-  buttonsContainer: {
-    position: 'absolute',
-    bottom: 50,
-    width: '100%',
-    justifyContent: 'space-around',
+  buttonContainer: {
     flexDirection: 'row',
-  },
-  preview: {
-    width: 300,
-    height: 300,
-    borderRadius: 10,
+    justifyContent: 'space-around',
+    padding: 20,
   },
 });

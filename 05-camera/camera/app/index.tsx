@@ -79,9 +79,9 @@ export default function CameraScreen() {
     if (!photo?.uri) return;
 
     try {
-      if (hasMediaLibraryPermission) {
-        await MediaLibrary.saveToLibraryAsync(photo.uri);
-      }
+      // if (hasMediaLibraryPermission) {
+      //   await MediaLibrary.saveToLibraryAsync(photo.uri);
+      // }
 
      await saveImage(photo.uri);
       setPhoto(null);

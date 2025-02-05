@@ -13,15 +13,14 @@ import * as SQLite from "expo-sqlite";
 export default function TodosScreen() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [modalIsVisible, setModalIsVisible] = useState(false);
-  const [db, setDb] = useState<SQLite.SQLiteDatabase | null>(null);
+  const [db, setDb] = useState<SQLite.SQLiteDatabase | { transaction: () => { executeSql: () => void } } | null>(null);
 
   useEffect(() => {
     const initDb = async () => {
       try {
         const database = await getDatabaseInstance();
-        if (database) {
-          setDb(database);
-          // Load todos after database is initialized
+        setDb(database);
+        if ('getAllAsync' in database) {
           const result = await database.getAllAsync<Todo>('SELECT * FROM todos');
           setTodos(result);
         }
@@ -33,7 +32,7 @@ export default function TodosScreen() {
   }, []);
 
   const addTodo = async (todoText: string) => {
-    if (!db) return;
+    if (!db || !('runAsync' in db)) return;
 
     try {
       const result = await db.runAsync(
@@ -55,7 +54,7 @@ export default function TodosScreen() {
   };
 
   const removeTodo = async (id: string) => {
-    if (!db) return;
+    if (!db || !('runAsync' in db)) return;
 
     try {
       await db.runAsync('DELETE FROM todos WHERE id = ?', [id]);

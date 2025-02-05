@@ -1,6 +1,6 @@
-import { StyleSheet, View, Text, Pressable } from 'react-native';
-import { TodoItemProps } from '../types';
-import Colors from '../constants/colors';
+import { StyleSheet, View, Text, Pressable } from "react-native";
+import { TodoItemProps } from "../types";
+import Colors from "../constants/colors";
 
 export function TodoItem({ onDeleteItem, id, text }: TodoItemProps) {
   return (
@@ -30,4 +30,4 @@ const styles = StyleSheet.create({
     color: Colors.white,
     padding: 8,
   },
-}); 
+});

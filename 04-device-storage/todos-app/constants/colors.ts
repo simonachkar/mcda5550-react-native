@@ -1,4 +1,4 @@
-const Colors = {
+const colors = {
   white: 'white',
   primary300: '#EDFFE6',
   primary400: '#ADE792', 
@@ -7,4 +7,4 @@ const Colors = {
   secondary500: '#D16224',
 } as const;
 
-export default Colors;
+export default colors;

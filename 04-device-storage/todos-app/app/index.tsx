@@ -18,7 +18,7 @@ export default function TodosScreen() {
   useEffect(() => {
     const initDb = async () => {
       const database = await getDatabaseInstance();
-      if (database && 'transaction' in database) {
+      if (database && "transaction" in database) {
         // Cast to unknown first, then to SQLiteDatabase
         const sqliteDb = database as unknown as SQLite.SQLiteDatabase;
         setDb(sqliteDb);

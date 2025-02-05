@@ -68,7 +68,7 @@ export default function TodosScreen() {
     <>
       <Stack.Screen
         options={{
-          title: "Your Todos",
+          title: "Your Todos ✅",
           headerStyle: { backgroundColor: Colors.primary500 },
           headerTintColor: Colors.white,
         }}

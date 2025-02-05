@@ -1,13 +1,14 @@
-import { useEffect, useState } from 'react';
-import { StyleSheet, View, FlatList, Button } from 'react-native';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import { TodoItem } from '../components/TodoItem';
-import { TodoInputModal } from '../components/TodoInputModal';
-import { getDatabaseInstance } from '../utils/database';
-import Colors from '../constants/colors';
-import { Todo } from '../types';
-import * as SQLite from 'expo-sqlite';
+import React from "react";
+import { useEffect, useState } from "react";
+import { StyleSheet, View, FlatList, Button } from "react-native";
+import { Stack } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import { TodoItem } from "../components/TodoItem";
+import { TodoInputModal } from "../components/TodoInputModal";
+import { getDatabaseInstance } from "../utils/database";
+import Colors from "../constants/colors";
+import { Todo } from "../types";
+import * as SQLite from "expo-sqlite";
 
 export default function TodosScreen() {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -17,18 +18,22 @@ export default function TodosScreen() {
   useEffect(() => {
     const initDb = async () => {
       const database = await getDatabaseInstance();
-      setDb(database);
-      await loadTodos(database);
+      if (database && 'transaction' in database) {
+        // Cast to unknown first, then to SQLiteDatabase
+        const sqliteDb = database as unknown as SQLite.SQLiteDatabase;
+        setDb(sqliteDb);
+        await loadTodos(sqliteDb);
+      }
     };
     initDb();
   }, []);
 
   const loadTodos = async (database: SQLite.SQLiteDatabase) => {
     try {
-      const result = await database.getAllAsync<Todo>('SELECT * FROM todos');
+      const result = await database.getAllAsync<Todo>("SELECT * FROM todos");
       setTodos(result);
     } catch (error) {
-      console.error('Error loading todos:', error);
+      console.error("Error loading todos:", error);
     }
   };
 
@@ -36,11 +41,10 @@ export default function TodosScreen() {
     if (!db) return;
 
     try {
-      const result = await db.runAsync(
-        'INSERT INTO todos (text) VALUES (?)',
-        [todoText]
-      );
-      
+      const result = await db.runAsync("INSERT INTO todos (text) VALUES (?)", [
+        todoText,
+      ]);
+
       if (result.lastInsertRowId) {
         const newTodo: Todo = {
           id: result.lastInsertRowId.toString(),
@@ -50,7 +54,7 @@ export default function TodosScreen() {
       }
       setModalIsVisible(false);
     } catch (error) {
-      console.error('Error adding todo:', error);
+      console.error("Error adding todo:", error);
     }
   };
 
@@ -58,12 +62,10 @@ export default function TodosScreen() {
     if (!db) return;
 
     try {
-      await db.runAsync('DELETE FROM todos WHERE id = ?', [id]);
-      setTodos((currentTodos) =>
-        currentTodos.filter((todo) => todo.id !== id)
-      );
+      await db.runAsync("DELETE FROM todos WHERE id = ?", [id]);
+      setTodos((currentTodos) => currentTodos.filter((todo) => todo.id !== id));
     } catch (error) {
-      console.error('Error removing todo:', error);
+      console.error("Error removing todo:", error);
     }
   };
 
@@ -71,7 +73,7 @@ export default function TodosScreen() {
     <>
       <Stack.Screen
         options={{
-          title: 'Your Todos',
+          title: "Your Todos",
           headerStyle: { backgroundColor: Colors.primary500 },
           headerTintColor: Colors.white,
         }}

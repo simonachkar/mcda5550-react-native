@@ -32,6 +32,12 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
+      ],
+      [
+        "expo-sqlite",
+        {
+          "enableChangeListener": false
+        }
       ]
     ],
     "experiments": {

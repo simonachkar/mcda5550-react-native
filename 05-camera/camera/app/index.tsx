@@ -12,8 +12,8 @@ import {
 import { CameraView, CameraType, type CameraCapturedPicture, useCameraPermissions } from 'expo-camera';
 import { shareAsync } from 'expo-sharing';
 import * as MediaLibrary from 'expo-media-library';
-import { getDatabaseInstance } from '../utils/database';
 import { FontAwesome6 } from '@expo/vector-icons';
+import { saveImage } from '@/utils/images';
 
 const handleError = (error: any, message: string) => {
   console.error(message, error);
@@ -83,11 +83,7 @@ export default function CameraScreen() {
         await MediaLibrary.saveToLibraryAsync(photo.uri);
       }
 
-      const db = await getDatabaseInstance();
-      await db.execAsync(
-        'INSERT INTO images (imageSrc) VALUES (?)',
-        [photo.uri]
-      );
+     await saveImage(photo.uri);
       setPhoto(null);
     } catch (error) {
       handleError(error, 'Error saving photo:');
@@ -136,7 +132,7 @@ export default function CameraScreen() {
               </View>
             )}
           </Pressable>
-          <View style={{ width: 32 }} /> {/* Spacer for layout balance */}
+          <View style={{ width: 32 }} />
         </View>
       </CameraView>
     </View>

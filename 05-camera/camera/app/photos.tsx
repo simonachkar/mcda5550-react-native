@@ -1,25 +1,25 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { FlatList, Image, View, StyleSheet, Dimensions } from 'react-native';
-import { getDatabaseInstance, ImageRecord } from '../utils/database';
+import { useFocusEffect } from '@react-navigation/native';
+import { getImages, ImageRecord } from '@/utils/images';
 
 export default function PhotosList() {
   const [photos, setPhotos] = useState<ImageRecord[]>([]);
 
-  useEffect(() => {
-    const loadPhotos = async () => {
-      try {
-        const db = await getDatabaseInstance();
-        const result = await db.execAsync('SELECT * FROM images');
-        if (result?.rows) {
-          setPhotos(Array.from(result.rows));
+  useFocusEffect(
+    useCallback(() => {
+      const loadPhotos = async () => {
+        try {
+          const images = await getImages();
+          setPhotos(images);
+        } catch (error) {
+          console.error('Error loading photos:', error);
         }
-      } catch (error) {
-        console.error('Error loading photos:', error);
-      }
-    };
+      };
 
-    loadPhotos();
-  }, []);
+      loadPhotos();
+    }, [])
+  );
 
   const screenWidth = Dimensions.get('window').width;
   const imageWidth = (screenWidth - 8) / 3; // 3 columns with 2px padding on each side

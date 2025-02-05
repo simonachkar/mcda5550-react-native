@@ -2,18 +2,23 @@ import * as SQLite from 'expo-sqlite';
 import { Platform } from 'react-native';
 
 async function initDatabase() {
-  const db = await SQLite.openDatabaseAsync('todos.db');
+  // Use openDatabaseSync instead of openDatabaseAsync
+  const db = SQLite.openDatabaseSync('todos.db');
   
-  // Create the todos table if it doesn't exist
-  await db.execAsync(`
-    PRAGMA journal_mode = WAL;
-    CREATE TABLE IF NOT EXISTS todos (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      text TEXT NOT NULL
-    );
-  `);
-  
-  return db;
+  try {
+    // Execute the table creation in a transaction
+    await db.execAsync(`
+      CREATE TABLE IF NOT EXISTS todos (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        text TEXT NOT NULL
+      );
+    `);
+    
+    return db;
+  } catch (error) {
+    console.error('Database initialization error:', error);
+    throw error;
+  }
 }
 
 // For web platform (not supported)

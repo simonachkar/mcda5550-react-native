@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Stack, Link } from "expo-router";
+import { StatusBar } from 'expo-status-bar';
 import {
   View,
   Text,
@@ -10,7 +10,7 @@ import {
   Button,
 } from "react-native";
 
-export default function WelcomeApp() {
+export default function App() {
   const [inputName, setInputName] = useState("");
   const [displayName, setDisplayName] = useState("");
 
@@ -25,16 +25,12 @@ export default function WelcomeApp() {
 
   return (
     <View style={styles.container}>
-      <Stack.Screen options={{ headerStyle: { backgroundColor: '#FFE4E1' }, headerTitle: "SMU welcome app" }} />
-
       <View style={styles.logoContainer}>
         <Image
-          source={require("@/assets/images/smu_logo.png")}
+          source={require("./assets/smu_logo.png")}
           style={styles.logo}
         />
-        <Link href={{ pathname: '/details' }} style={{ color: '#9D2235', textDecorationLine: 'underline', margin: 10 }}>Go to Details Screen</Link>
       </View>
-
       <ScrollView style={styles.contentContainer}>
         <TextInput
           style={styles.inputField}
@@ -54,6 +50,7 @@ export default function WelcomeApp() {
             </Text>
           </View>
         ) : null}
+        <StatusBar style="auto" />
       </ScrollView>
     </View>
   );

@@ -1,14 +1,6 @@
 import { useState } from "react";
 import { StatusBar } from 'expo-status-bar';
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  ScrollView,
-  TextInput,
-  Button,
-} from "react-native";
+import { View, Text, Image, StyleSheet, ScrollView, TextInput, Button } from "react-native";
 
 export default function App() {
   const [inputName, setInputName] = useState("");

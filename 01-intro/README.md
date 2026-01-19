@@ -8,6 +8,22 @@ React Native is a framework enabling developers to build mobile apps using JavaS
 
 Expo is a development platform that simplifies building, testing, and deploying mobile apps.
 
+## App created
+
+This project was created using Expo with the Blank template:
+
+```
+npx create-expo-app@latest --template
+```
+
+## Web
+
+To enable web support, install the required dependencies:
+
+```
+npx expo install react-dom react-native-web
+```
+
 ## Create a React Native Project
 
 You can use either Expo CLI or React Native CLI to create a project. For this project, we will use Expo CLI:
@@ -30,16 +46,4 @@ npm run web       # runs on Browser
 - For iOS, you can use the Xcode to run the app.
 - For more info on setting up the development environment, refer to [React Native's environment setup doc](https://reactnative.dev/docs/environment-setup).
 
-### Reset the project 
-
-You can remove the boilerplate code and start fresh with a new project. Run the following command to reset your project:
-
-```bash
-npm run reset-project
-```
-This command will move the existing files in app to app-example, then create a new app directory with a new index.tsx file.
-
-## About This App
-
-This React Native `my-app` demonstrates basic concepts with a simple user interface.Users can input and display information, exploring components and state management inReact Native.
 

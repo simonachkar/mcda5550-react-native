@@ -37,16 +37,6 @@ export default function AboutScreen() {
             </Text>
           </View>
         </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Technologies</Text>
-          <Text style={styles.text}>
-            • React Native{"\n"}
-            • Expo Router{"\n"}
-            • TypeScript{"\n"}
-            • File-based routing
-          </Text>
-        </View>
       </View>
     </ScrollView>
   );

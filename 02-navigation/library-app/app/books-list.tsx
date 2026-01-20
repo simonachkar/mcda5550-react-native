@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { View, FlatList, StyleSheet } from "react-native";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { BookItem } from "../components/BookItem";

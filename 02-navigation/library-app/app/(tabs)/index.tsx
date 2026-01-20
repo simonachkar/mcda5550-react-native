@@ -1,14 +1,35 @@
-import { StyleSheet } from 'react-native';
-
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+import { FlatList, StyleSheet } from 'react-native';
+import { useRouter } from 'expo-router';
+import { View } from '@/components/Themed';
+import { CategoryTile } from '@/components/CategoryTile';
+import { CATEGORIES } from '@/data/categories';
+import { Category } from '@/types';
 
 export default function TabOneScreen() {
+  const router = useRouter();
+
+  const pressHandler = (category: Category) => {
+    router.push({
+      pathname: '/books-list',
+      params: { categoryId: category.id }
+    });
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
+      <FlatList
+        data={CATEGORIES}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <CategoryTile
+            title={item.title}
+            color={item.color}
+            onPress={() => pressHandler(item)}
+          />
+        )}
+        numColumns={2}
+        contentContainerStyle={styles.listContainer}
+      />
     </View>
   );
 }
@@ -16,16 +37,10 @@ export default function TabOneScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#fff',
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
+  listContainer: {
+    paddingHorizontal: 8,
+    paddingBottom: 20,
   },
 });

@@ -1,13 +1,12 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { StyleSheet, View, FlatList, Button } from "react-native";
-import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { TodoItem } from "../components/TodoItem";
-import { TodoInputModal } from "../components/TodoInputModal";
-import { getDatabaseInstance } from "../utils/database";
-import Colors from "../constants/colors";
-import { Todo } from "../types";
+import { TodoItem } from "./components/TodoItem";
+import { TodoInputModal } from "./components/TodoInputModal";
+import { getDatabaseInstance } from "./utils/database";
+import Colors from "./constants/colors";
+import { Todo } from "./types";
 import * as SQLite from "expo-sqlite";
 
 export default function TodosScreen() {
@@ -66,20 +65,15 @@ export default function TodosScreen() {
 
   return (
     <>
-      <Stack.Screen
-        options={{
-          title: "Your Todos ✅",
-          headerStyle: { backgroundColor: Colors.primary500 },
-          headerTintColor: Colors.white,
-        }}
-      />
       <StatusBar style="light" />
       <View style={styles.appContainer}>
-        <Button
-          title="Add New Todo"
-          color={Colors.primary600}
-          onPress={() => setModalIsVisible(true)}
-        />
+        <View style={styles.addButtonArea}>
+          <Button
+            title="Add New Todo"
+            color={Colors.primary600}
+            onPress={() => setModalIsVisible(true)}
+          />
+        </View>
         <TodoInputModal
           isVisible={modalIsVisible}
           onAddTodo={addTodo}
@@ -106,11 +100,15 @@ export default function TodosScreen() {
 const styles = StyleSheet.create({
   appContainer: {
     flex: 1,
-    paddingTop: 20,
+    paddingTop: 28,
     paddingHorizontal: 16,
+    backgroundColor: Colors.primary300,
   },
   todosContainer: {
     flex: 5,
-    marginTop: 14,
+    marginTop: 16,
+  },
+  addButtonArea: {
+    marginVertical: 12,
   },
 });

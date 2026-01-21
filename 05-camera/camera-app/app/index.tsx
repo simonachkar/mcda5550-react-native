@@ -1,50 +1,33 @@
-import React, { useEffect, useRef, useState } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  Image,
-  SafeAreaView,
-  TouchableOpacity,
-  Pressable,
-} from 'react-native';
-import { CameraView, CameraType, type CameraCapturedPicture, useCameraPermissions } from 'expo-camera';
-import { shareAsync } from 'expo-sharing';
-import * as MediaLibrary from 'expo-media-library';
+import { useRef, useState } from 'react';
+import { Button, Pressable, StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
 import { FontAwesome6 } from '@expo/vector-icons';
-import { saveImage } from '@/utils/images';
+import { CameraView, CameraType, useCameraPermissions, CameraCapturedPicture } from 'expo-camera';
+import { shareAsync } from 'expo-sharing';
 
-const handleError = (error: any, message: string) => {
-  console.error(message, error);
-};
-
-export default function CameraScreen() {
-  const cameraRef = useRef<CameraView>(null);
-  const [permission, requestPermission] = useCameraPermissions();
-  const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState<boolean>(false);
-  const [photo, setPhoto] = useState<CameraCapturedPicture | null>(null);
+export default function App() {
   const [facing, setFacing] = useState<CameraType>('back');
+  const [permission, requestPermission] = useCameraPermissions();
 
-  useEffect(() => {
-    const requestPermissions = async () => {
-      const mediaLibraryPermission = await MediaLibrary.requestPermissionsAsync();
-      setHasMediaLibraryPermission(mediaLibraryPermission.status === 'granted');
-    };
-    requestPermissions();
-  }, []);
+  const cameraRef = useRef<CameraView>(null);
+  const [photo, setPhoto] = useState<CameraCapturedPicture | null>(null);
 
   if (!permission) {
+    // Camera permissions are still loading.
     return <View />;
   }
 
   if (!permission.granted) {
+    // Camera permissions are not granted yet.
     return (
       <View style={styles.container}>
         <Text style={styles.message}>We need your permission to show the camera</Text>
         <Button onPress={requestPermission} title="grant permission" />
       </View>
     );
+  }
+
+  function toggleCameraFacing() {
+    setFacing(current => (current === 'back' ? 'front' : 'back'));
   }
 
   const takePic = async () => {
@@ -58,15 +41,10 @@ export default function CameraScreen() {
       });
       setPhoto(newPhoto as CameraCapturedPicture);
     } catch (error) {
-      handleError(error, 'Error taking picture:');
+      console.error('Error taking picture:', error);
     }
   };
 
-  const toggleFacing = () => {
-    setFacing(current => (current === 'back' ? 'front' : 'back'));
-  };
-
-  // Share picture after taking it
   const sharePic = async () => {
     if (!photo?.uri) return;
 
@@ -74,50 +52,34 @@ export default function CameraScreen() {
     setPhoto(null);
   };
 
-  // Save picture to media library and SQLite database
-  const savePhoto = async () => {
-    if (!photo?.uri) return;
-
-    try {
-      // if (hasMediaLibraryPermission) {
-      //   await MediaLibrary.saveToLibraryAsync(photo.uri);
-      // }
-
-     await saveImage(photo.uri);
-      setPhoto(null);
-    } catch (error) {
-      handleError(error, 'Error saving photo:');
-    }
-  };
 
   // Render photo preview or camera UI
   if (photo) {
     return (
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         <Image
           style={styles.preview}
           source={{ uri: photo.uri }}
         />
         <View style={styles.buttonContainer}>
-          <Button title="Share" onPress={sharePic} />
-          {hasMediaLibraryPermission && (
-            <Button title="Save" onPress={savePhoto} />
-          )}
-          <Button title="Retake" onPress={() => setPhoto(null)} />
+          <TouchableOpacity style={styles.button} onPress={sharePic}>
+            <FontAwesome6 name="share-nodes" size={22} color="white" />
+            <Text style={styles.buttonText}>Share</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={() => setPhoto(null)}>
+            <FontAwesome6 name="camera" size={22} color="white" />
+            <Text style={styles.buttonText}>Retake</Text>
+          </TouchableOpacity>
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 
   return (
     <View style={styles.container}>
-      <CameraView 
-        style={styles.camera} 
-        ref={cameraRef}
-        facing={facing}
-      >
+      <CameraView style={styles.camera} facing={facing} ref={cameraRef} />
         <View style={styles.shutterContainer}>
-          <TouchableOpacity onPress={toggleFacing}>
+          <TouchableOpacity onPress={toggleCameraFacing}>
             <FontAwesome6 name="rotate-left" size={32} color="white" />
           </TouchableOpacity>
           <Pressable onPress={takePic}>
@@ -134,7 +96,6 @@ export default function CameraScreen() {
           </Pressable>
           <View style={{ width: 32 }} />
         </View>
-      </CameraView>
     </View>
   );
 }
@@ -184,8 +145,30 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   buttonContainer: {
+    position: 'absolute',
+    bottom: 60,
+    left: 0,
+    width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-around',
-    padding: 20,
+    alignItems: 'center',
+    paddingHorizontal: 30,
+    gap: 20,
+  },
+  button: {
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: '#333',
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    borderRadius: 12,
+    borderWidth: 0.5,
+    borderColor: '#999',
+    gap: 8,
+  },
+  buttonText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: 'white',
   },
 });

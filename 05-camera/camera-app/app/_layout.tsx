@@ -1,35 +1,25 @@
-import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { Drawer } from 'expo-router/drawer';
 
-export default function AppLayout() {
+export default function Layout() {
   return (
-    <Tabs>
-      <Tabs.Screen
+    <Drawer>
+      <Drawer.Screen
         name="index"
         options={{
+          drawerLabel: 'Camera',
           title: 'Camera',
-          tabBarIcon: ({ focused, color, size }) => (
-            <Ionicons
-              name={focused ? 'camera' : 'camera-outline'}
-              size={size}
-              color={color}
-            />
-          ),
+          drawerIcon: () => <Ionicons name="camera" size={24} />,
         }}
       />
-      <Tabs.Screen
+      <Drawer.Screen
         name="photos"
         options={{
-          title: 'Photos',
-          tabBarIcon: ({ focused, color, size }) => (
-            <Ionicons
-              name={focused ? 'images' : 'images-outline'}
-              size={size}
-              color={color}
-            />
-          ),
+          drawerLabel: 'Gallery',
+          title: 'Gallery',
+          drawerIcon: () => <Ionicons name="images" size={24} />,
         }}
       />
-    </Tabs>
+    </Drawer>
   );
 }

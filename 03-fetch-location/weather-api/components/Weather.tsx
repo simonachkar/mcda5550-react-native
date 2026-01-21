@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 import { WeatherProps } from "../types/weather";
 
 export function Weather({ weatherData }: WeatherProps) {
@@ -15,7 +15,7 @@ export function Weather({ weatherData }: WeatherProps) {
         <Text style={styles.tempText}>{weatherData.locationName}</Text>
       </View>
       <View style={styles.bodyContainer}>
-        <Text style={styles.title}>{weatherData.temperature}˚</Text>
+        <Text style={styles.title}>{weatherData.temperature.toFixed()}˚</Text> 
         <Text style={styles.subtitle}>{weatherData.weatherCondition}</Text>
       </View>
     </View>
@@ -25,7 +25,6 @@ export function Weather({ weatherData }: WeatherProps) {
 const styles = StyleSheet.create({
   weatherContainer: {
     flex: 1,
-
     width: "100%",
     marginTop: 90,
     marginBottom: 55,

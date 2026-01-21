@@ -1,11 +1,14 @@
 import { FontAwesome6 } from '@expo/vector-icons';
-import { CameraView, CameraType, useCameraPermissions } from 'expo-camera';
-import { useState } from 'react';
-import { Button, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { CameraView, CameraType, useCameraPermissions, CameraCapturedPicture } from 'expo-camera';
+import { useRef, useState } from 'react';
+import { Button, Pressable, StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
 
 export default function App() {
   const [facing, setFacing] = useState<CameraType>('back');
   const [permission, requestPermission] = useCameraPermissions();
+
+  const cameraRef = useRef<CameraView>(null);
+  const [photo, setPhoto] = useState<CameraCapturedPicture | null>(null);
 
   if (!permission) {
     // Camera permissions are still loading.
@@ -26,14 +29,41 @@ export default function App() {
     setFacing(current => (current === 'back' ? 'front' : 'back'));
   }
 
+  const takePic = async () => {
+    if (!cameraRef.current) return;
+
+    try {
+      const newPhoto = await cameraRef.current.takePictureAsync({
+        quality: 1,
+        base64: true,
+        exif: false,
+      });
+      setPhoto(newPhoto as CameraCapturedPicture);
+    } catch (error) {
+      console.error('Error taking picture:', error);
+    }
+  };
+
+  // Render photo preview or camera UI
+  if (photo) {
+    return (
+      <View style={styles.container}>
+        <Image
+          style={styles.preview}
+          source={{ uri: photo.uri }}
+        />
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
-      <CameraView style={styles.camera} facing={facing}>
-      <View style={styles.shutterContainer}>
-        <TouchableOpacity onPress={toggleCameraFacing}>
-        <FontAwesome6 name="rotate-left" size={32} color="white" />
-        </TouchableOpacity>
-          <Pressable onPress={(pic) => console.log(pic)}>
+      <CameraView style={styles.camera} facing={facing} ref={cameraRef}>
+        <View style={styles.shutterContainer}>
+          <TouchableOpacity onPress={toggleCameraFacing}>
+            <FontAwesome6 name="rotate-left" size={32} color="white" />
+          </TouchableOpacity>
+          <Pressable onPress={takePic}>
             {({ pressed }) => (
               <View
                 style={[
@@ -46,7 +76,7 @@ export default function App() {
             )}
           </Pressable>
           <View style={{ width: 32 }} />
-      </View>
+        </View>
       </CameraView>
     </View>
   );

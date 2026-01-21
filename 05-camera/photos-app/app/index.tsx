@@ -1,7 +1,8 @@
-import { FontAwesome6 } from '@expo/vector-icons';
-import { CameraView, CameraType, useCameraPermissions, CameraCapturedPicture } from 'expo-camera';
 import { useRef, useState } from 'react';
 import { Button, Pressable, StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
+import { FontAwesome6 } from '@expo/vector-icons';
+import { CameraView, CameraType, useCameraPermissions, CameraCapturedPicture } from 'expo-camera';
+import { shareAsync } from 'expo-sharing';
 
 export default function App() {
   const [facing, setFacing] = useState<CameraType>('back');
@@ -44,6 +45,14 @@ export default function App() {
     }
   };
 
+  const sharePic = async () => {
+    if (!photo?.uri) return;
+
+    await shareAsync(photo.uri);
+    setPhoto(null);
+  };
+
+
   // Render photo preview or camera UI
   if (photo) {
     return (
@@ -52,6 +61,16 @@ export default function App() {
           style={styles.preview}
           source={{ uri: photo.uri }}
         />
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.button} onPress={sharePic}>
+            <FontAwesome6 name="share-nodes" size={22} color="white" />
+            <Text style={styles.buttonText}>Share</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={() => setPhoto(null)}>
+            <FontAwesome6 name="camera" size={22} color="white" />
+            <Text style={styles.buttonText}>Retake</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -127,8 +146,30 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   buttonContainer: {
+    position: 'absolute',
+    bottom: 60,
+    left: 0,
+    width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-around',
-    padding: 20,
+    alignItems: 'center',
+    paddingHorizontal: 30,
+    gap: 20,
+  },
+  button: {
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: '#333',
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    borderRadius: 12,
+    borderWidth: 0.5,
+    borderColor: '#999',
+    gap: 8,
+  },
+  buttonText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: 'white',
   },
 });
